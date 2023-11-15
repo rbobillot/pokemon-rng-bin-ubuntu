@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# TODO: check requirements first, from here
+# cf: ./.Project_Xs/install_requirements.bash
+
+python ./.Project_Xs/src/player_blink_gui.py
+
+# TODO: better UI, and update to Python 3.12 ?
+# -> JS UI (rather than Tkinter), communicating with Python app via Websockets
