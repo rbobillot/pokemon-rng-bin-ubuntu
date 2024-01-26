@@ -1,0 +1,33 @@
+#!/bin/bash
+
+EXECUTABLE='.EonTimer-2.0.1/bin/EonTimer'
+SDKMAN_JAVA_PATH="$HOME/.sdkman/candidates/java"
+JAVA8_CANDIDATE_DIRNAME='8.0.381-oracle'
+
+install_sdkman() {
+	curl -s "https://get.sdkman.io" | bash
+}
+
+install_oracle_java8() {
+	ORACLE_JAVA8_DOWNLOAD='https://javadl.oracle.com/webapps/download/AutoDL?BundleId=248763_8c876547113c4e4aab3c868e9e0ec572'
+	ORACLE_JAVA8_TARBALL='jre8.tgz'
+	TARBALL_OUTPUT="$SDKMAN_JAVA_PATH/jre1.8.0_381"
+	TARBALL_PATH="$SDKMAN_JAVA_PATH/$ORACLE_JAVA8_TARBALL"
+
+	wget $ORACLE_JAVA8_DOWNLOAD -O $TARBALL_PATH &&
+		tar zxvf $TARBALL_PATH -C $SDKMAN_JAVA_PATH &&
+		rm $TARBALL_PATH &&
+		mv $TARBALL_OUTPUT "$SDKMAN_JAVA_PATH/$JAVA8_CANDIDATE_DIRNAME"
+}
+
+# Install sdkman if not installed, then source it in the current shell
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] || install_sdkman
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# Install java 8.0.381 (from oracle) if not installed
+# it is needed for EonTimer to run (as it uses javafx)
+[[ ! -d "$SDKMAN_JAVA_PATH/$JAVA8_CANDIDATE_DIRNAME" ]] && install_oracle_java8
+
+sdk use java $JAVA8_CANDIDATE_DIRNAME
+
+bash $EXECUTABLE
