@@ -3,7 +3,7 @@
     "mode": "STANDARD",
     "calibration": 0,
     "preTimer": 5000,
-    "targetFrame": 1000
+    "targetFrame": 7837
   },
   "gen4": {
     "mode": "STANDARD",
@@ -25,16 +25,16 @@
     "stages": []
   },
   "actionSettings": {
-    "mode": "AUDIO",
+    "mode": "VISUAL",
     "color": "#00ffff",
-    "sound": "BEEP",
+    "sound": "POP",
     "interval": 500,
     "count": 6
   },
   "timerSettings": {
-    "console": "NDS",
+    "console": "GBA",
     "refreshInterval": 8,
     "precisionCalibrationMode": false
   },
-  "selectedTimer": "GEN5"
+  "selectedTimer": "GEN3"
 }

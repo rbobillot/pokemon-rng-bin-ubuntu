@@ -1,0 +1,36 @@
+#!/bin/bash
+
+sudo usermod -a -G dialout $USER
+sudo usermod -a -G plugdev $USER
+
+sudo cp ./.epilogue/99-epilogue.rules /etc/udev/rules.d/
+
+sudo udevadm control --reload-rules && sudo udevadm
+
+echo -e "\033[93mIf Epilogue device is not detected, please reboot your system.\033[0m"
+
+function get_epilogue_emu() {
+	VERSION=$1
+	LATEST_URL='https://epilogue.nyc3.digitaloceanspaces.com/releases/software/Playback/version/latest/master/linux'
+	VERSION_URL="https://epilogue.nyc3.cdn.digitaloceanspaces.com/releases/software/Playback/version/$VERSION/release/linux"
+	TARGET_URL=''
+
+	if [[ ! -f ./.epilogue/Playback.AppImage ]]; then
+
+		if [[ -z $VERSION ]]; then
+			echo -e "\033[96mDownloading latest Epilogue's Playback.AppImage version...\033[0m" &&
+				TARGET_URL=$LASTEST_URL
+		else
+			echo -e "\033[96mDownloading Epilogue's Playback.AppImage version $1...\033[0m" &&
+				TARGET_URL=$VERSION_URL
+		fi
+
+		curl -s "$VERSION_URL/Playback.AppImage" -o ./.epilogue/Playback.AppImage || return 1
+		chmod +x ./.epilogue/Playback.AppImage &&
+			echo -e "\033[92mDone\033[0m"
+	else
+		echo -e "\033[92mEpilogue's Playback.AppImage found\033[0m"
+	fi
+}
+
+get_epilogue_emu '1.1.0' && ./.epilogue/Playback.AppImage
