@@ -1,5 +1,19 @@
 #!/bin/bash
 
+show_info() {
+	echo 'Usage: ./eontimer [-j]'
+	echo
+	echo 'Options:'
+	echo '  -j      : use java executable'
+	echo '  default : use win executable (using Wine)'
+}
+
+show_info
+
 [[ -z $(which wine) ]] && sudo apt install wine
 
-wine ./.EonTimer-3-windows/EonTimer.exe
+if [[ $1 == '-j' ]]; then
+	./.eontimer-java
+else
+	wine ./.EonTimer-3-windows/EonTimer.exe
+fi
