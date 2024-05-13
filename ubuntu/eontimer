@@ -5,7 +5,26 @@ show_info() {
 	echo
 	echo 'Options:'
 	echo '  -j      : use java executable'
-	echo '  default : use win executable (using Wine)'
+	echo '  -w      : use win executable (using Wine)'
+	echo '  -p      : use python executable'
+	echo '  default : use default executable'
+	echo
+}
+
+exec_java() {
+	./.eontimer-java
+}
+
+exec_wine() {
+	wine ./.EonTimer-3-windows/EonTimer.exe
+}
+
+exec_python() {
+	./.EonTimer-py-3.0.0-rc2 # https://github.com/DasAmpharos/EonTimer/releases/tag/3.0.0-rc.2
+}
+
+exec_default() {
+	exec_wine
 }
 
 show_info
@@ -13,7 +32,11 @@ show_info
 [[ -z $(which wine) ]] && sudo apt install wine
 
 if [[ $1 == '-j' ]]; then
-	./.eontimer-java
+	exec_java
+elif [[ $1 == '-w' ]]; then
+	exec_wine
+elif [[ $1 == '-p' ]]; then
+	exec_python
 else
-	wine ./.EonTimer-3-windows/EonTimer.exe
+	exec_default
 fi
